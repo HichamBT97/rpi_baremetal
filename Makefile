@@ -1,7 +1,7 @@
 RPI_VERSION ?= 3
 
 # where the generated files will be located
-BOOTMNT ?= /home/ubuntu/work/boot
+BOOTMNT ?= /media/ubuntu/bootfs
 
 ARMGNU ?= aarch64-linux-gnu
 
@@ -27,6 +27,24 @@ all : kernel8.img armstub
 clean :
 	rm -rf $(BUILD_DIR) *.img
 	rm -rf $(ARM_BUILD_DIR)  *.bin
+ifneq ("$(wildcard $(BOOTMNT)/armstub-new.bin)","")
+	@echo ""
+	@echo "armstub-new.bin Exits"
+	@echo "Removing armstub-new.bin.."
+	rm $(BOOTMNT)/armstub-new.bin
+	@echo "Done."
+	@echo ""
+endif
+	
+ifneq ("$(wildcard $(BOOTMNT)/kernel8-rpi3.img)","")
+	@echo ""
+	@echo "kernel8-rpi3.img Exits"
+	@echo "Removing kernel8-rpi3.img.."
+	rm $(BOOTMNT)/kernel8-rpi3.img
+	@echo "Done."
+	@echo ""
+endif
+	
 
 # Pattern rule for building object file fron C files
 # Create build directory if doesn't exist
