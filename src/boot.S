@@ -21,7 +21,7 @@ master:
     ldr x0, =SCR_VALUE                // Set Exception level lower than EL3 to non-secure mode & specify EL2/1/0 as AArch64
     msr scr_el3, x0
 
-    ldr x0, =SPSR_VALUE
+    ldr x0, =SPSR_VALUE               // Move to EL1 and copy back 1 to PSTATE.SP to indicate use of the SP_ELx stack pointer for the ELx.
     msr spsr_el3, x0
 
     adr x0, el1_entry

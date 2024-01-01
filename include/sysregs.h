@@ -13,7 +13,8 @@
 #define SCTLR_VALUE_MMU_DISABLED (SCTLR_RESERVED | SCTLR_EE_LITTLE_ENDIAN | SCTLR_I_CACHE_DISABLED | SCTLR_D_CACHE_DISABLED | SCTLR_MMU_DISABLED)
 
 //D13.2.47
-
+// HCR[RW:31] : Execution state control for lower Exception levels
+// HCR[RW:31] = 1 means that execution state for EL1 is aarch64, for EL0 is determined by the value of PSTATE.nRW
 #define HCR_RW                          (1 << 31)
 #define HCR_VALUE                       HCR_RW
 
