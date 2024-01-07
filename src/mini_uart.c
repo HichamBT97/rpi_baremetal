@@ -6,6 +6,8 @@
 #define TXD 14
 #define RXD 15
 
+#define MU_EN_REC_IRQ
+
 void uart_init()
 {
     gpio_pin_set_func(TXD, GFAlt5);
@@ -21,8 +23,18 @@ void uart_init()
     REGS_AUX->mu_control = 0;
     
     /* Disable interrupts */
+#ifndef MU_EN_REC_IRQ
     REGS_AUX->mu_ier = 0;
+#else
+    /* Enable receive interrupt */
+#if RPI_VERSION == 3
+    REGS_AUX->mu_ier = 0xD; //BCM2837
+#endif
 
+#if RPI_VERSION == 4
+    REGS_AUX->mu_ier = 0xE; //BCM2711
+#endif
+#endif
     /* UART works ni 8-bits format */
     REGS_AUX->mu_lcr = 3;
 
