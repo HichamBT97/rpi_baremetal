@@ -2,6 +2,7 @@
 #include "mini_uart.h"
 #include "printf.h"
 #include "utils.h"
+#include "irq.h"
 
 void putc(void *p, char c)
 {
@@ -18,6 +19,10 @@ void kernel_main(void)
     init_printf(0, putc);
     printf("\nRaspberry PI Bare Metal OS Initializing...\n");
 
+    irq_init_vectors();
+    enable_interrupt_controller();
+    irq_enable();
+    
 #if RPI_VERSION == 3
     printf("\tBoard: Raspberry PI 3\n");
 #endif
@@ -30,6 +35,6 @@ void kernel_main(void)
 
     while (1)
     {
-        uart_send(uart_recv());
+        //uart_send(uart_recv());
     }   
 }
