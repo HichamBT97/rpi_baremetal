@@ -3,6 +3,7 @@
 #include "printf.h"
 #include "utils.h"
 #include "irq.h"
+#include "timer.h"
 
 void putc(void *p, char c)
 {
@@ -22,6 +23,7 @@ void kernel_main(void)
     irq_init_vectors();
     enable_interrupt_controller();
     irq_enable();
+    timer_init();
     
 #if RPI_VERSION == 3
     printf("\tBoard: Raspberry PI 3\n");
@@ -32,6 +34,16 @@ void kernel_main(void)
 #endif
 
     printf("\nException Level : %d\n", get_el());
+
+    printf("Sleeping for 200 ms...\n");
+    sleep(200);
+
+    printf("Sleeping for 2 s...\n");
+    sleep(2000);
+
+    printf("Sleeping for 5 s...\n");
+    sleep(5000);
+    printf("Done.\n");
 
     while (1)
     {
