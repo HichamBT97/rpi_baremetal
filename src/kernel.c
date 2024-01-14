@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "irq.h"
 #include "timer.h"
+#include "i2c.h"
 
 void putc(void *p, char c)
 {
@@ -38,11 +39,30 @@ void kernel_main(void)
     printf("Sleeping for 200 ms...\n");
     sleep(200);
 
-    printf("Sleeping for 2 s...\n");
-    sleep(2000);
+    printf("Initializing i2c..\n");
+    i2c_init();
 
-    printf("Sleeping for 5 s...\n");
-    sleep(5000);
+    for (int i = 0; i < 10; i++)
+    {
+        char buffer[10];
+        i2c_recv(21, buffer, 9);
+        buffer[9] = 0;
+
+        printf("Recieved: %s\n", buffer);
+        sleep(250);
+    }
+
+    for (u8 d=0; d<20; d++) {
+        i2c_send(21, &d, 1);
+
+        sleep(250);
+
+        printf("Sent: %d\n", d);
+    }
+
+    char *msg = "Hello Slave Device";
+    i2c_send(21, msg, 18);
+    
     printf("Done.\n");
 
     while (1)

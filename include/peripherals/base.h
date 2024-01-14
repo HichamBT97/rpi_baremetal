@@ -13,3 +13,4 @@
 
 #endif
 
+#define CORE_CLOCK_SPEED 1500000000
